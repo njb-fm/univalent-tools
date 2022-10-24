@@ -8,11 +8,12 @@ function package_manage () {
 	while true; do
 
 	clear
-    echo " ┌─────────────────────┐ "
-    echo " │ [Managing packages] │"
-    echo " ├─────────────────────┴──────────────────────────┐"
+    echo " ┌──────────────────────┐ "
+    echo " │ [Package Management] │"
+    echo " ├──────────────────────┴─────────────────────────┐"
     echo " │  1 - Update All Packages   2 - Search Package  │"
     echo " │  3 - Install Package       4 - Remove Package  │"
+    echo " │  5 - Clean Caches                              │"
     echo " │                                                │"
     echo " │                            0 - Canncel         │"
     echo " └────────────────────────────────────────────────┘"
@@ -24,7 +25,7 @@ function package_manage () {
 		return
 	fi
 
-	if [[ ${selected} != "1" ]]; then
+	if [[ ${selected} != "1" ]] && [[ ${selected} != "5" ]]; then
 		local package_name
     	echo -n " [Packages name?] > "
 		read package_name
@@ -36,11 +37,12 @@ function package_manage () {
 
 	echo ""
 	case ${selected} in
-		0) return                          ;;
-		1) yay -Syu                ;;
-		2) yay -Ss ${package_name} ;;
-		3) yay -S ${package_name} ;;
-		4) yay -R  ${package_name} ;;
+		0) return                           ;;
+		1) sudo pacman -Syu                 ;;
+		2)      pacman -Ss ${package_name}  ;;
+		3) sudo pacman -S ${package_name}   ;;
+		4) sudo pacman -Rns ${package_name} ;;
+		5) sudo pacman -Scc;;
 	esac
 	echo "Completed!!"
 	echo "Press any key to continue..."

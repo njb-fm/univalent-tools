@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Name=Univalent Tools
+# Only KDE 4 seems to use GenericName, so we reuse the KDE strings.
+# From Ubuntu's language-pack-kde-XX-base packages, version 9.04-20090413.
+GenericName=System Setting Tool
+GenericName[ja]=システム設定ツール
+Comment=System setting tool written in bash, inspired by Alter Linux i3wm.
+Comment[ja]=Alter Linux i3wmに影響を受けた、Bashで記述されたシステム設定ツール
+Exec=univalent-tools
+StartupNotify=true
+Terminal=true
+Icon=univalent
+Type=Application
+Categories=Settings;Utility;

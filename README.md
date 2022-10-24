@@ -2,27 +2,27 @@
 -----
 
 ## なにこれ
-えーなんだろこれ。簡単に言うとBashとかで動くシステム設定用ソフトでーす。
-Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こんなのがあるといいなー」みたいな考えで作りました。
+Well, what's this??? To put it simply, it's a system configuration software that works with Bash and so on.
+Inspired by the i3-wm version of Alter Linux, I thought, "I wish I had something like this."
 
-以下の事を行なえます。
-- 画面設定 (ARandR)
-- ネットワーク設定 (Network Manager)
-- 音声設定 (PulseAudio Volume Control)
-- パッケージ管理 (Pacman)
-	- 全てのパッケージの更新
-	- パッケージの検索
-	- パッケージの導入
-	- パッケージの削除
-	- パッケージの詳細の表示
-	- キャッシュの削除
-- 時刻設定 (NTP)
-	- 標準時間帯の変更
-	- NTPによる時刻の同期
-	- ハードウエアクロックへの書き込み
-	- NTPの有効化及び無効化
+This script can do:
+- Display setting (ARandR)
+- Network setting (Network Manager)
+- Audio Setting (PulseAudio Volume Control)
+- Package Management (Pacman)
+	- Update all packages
+	- Search packages
+	- Install packages
+	- Remove packages
+	- Show packages details
+	- Clean caches
+- Time setting (NTP)
+	- Change time zone
+	- Sync time with NTP
+	- Write to hardware clock
+	- Enable or disable NTP
 
-## 依存パッケージ
+## Dependencies
 - arandr
 - networkmanager
 - ntp
@@ -31,4 +31,4 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
 `yay -S arandr networkmanager pavucontrol ntp`
 
 ## Special Thanks (敬称略)
-わたすけ (@watasuke102)
+Watasuke (@watasuke102)

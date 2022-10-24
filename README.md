@@ -29,5 +29,5 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
 
 `yay -S arandr networkmanager pavucontrol ntp`
 
-## Special Thanks
+## Special Thanks (敬称略)
 わたすけ (@watasuke102)

@@ -42,7 +42,7 @@ function package_manage () {
 		2)      pacman -Ss ${package_name}  ;;
 		3) sudo pacman -S ${package_name}   ;;
 		4) sudo pacman -Rns ${package_name} ;;
-		5) sudo pacman -Scc;;
+		5) sudo pacman -Scc                 ;;
 	esac
 	echo "Completed!!"
 	echo "Press any key to continue..."

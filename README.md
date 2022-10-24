@@ -1,7 +1,7 @@
 # univalent-tools
 -----
 
-## なにこれ
+## About this
 Well, what's this??? To put it simply, it's a system configuration software that works with Bash and so on.
 Inspired by the i3-wm version of Alter Linux, I thought, "I wish I had something like this."
 

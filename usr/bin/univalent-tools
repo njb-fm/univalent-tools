@@ -25,7 +25,7 @@ function package_manage () {
 		return
 	fi
 
-	if [[ ${selected} != "1" ]] || [[ ${selected} != "6" ]]; then
+	if [[ ${selected} != "1" ]] && [[ ${selected} != "6" ]]; then
 		local package_name
     	echo -n " [Package name?] > "
 		read package_name
@@ -101,7 +101,7 @@ function main () {
     echo " │  5 - Time settings                                       │"
     echo " │                                                          │"
     echo " │                            0 - Exit                      │"
-    echo " └────────────────────────────┴─────────────────────────────┘"
+    echo " └──────────────────────────────────────────────────────────┘"
 
     echo -n " [select] > "
 	read -n1 selected

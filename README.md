@@ -25,7 +25,6 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
 - networkmanager
 - ntp
 - pavucontrol
-- yay
 
 `yay -S arandr networkmanager pavucontrol ntp`
 

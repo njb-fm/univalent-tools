@@ -10,13 +10,13 @@ function package_manage () {
 	clear
     echo " ┌──────────────────────┐ "
     echo " │ [Package Management] │"
-    echo " ├──────────────────────┴─────────────────────────┐"
-    echo " │  1 - Update All Packages   2 - Search Package  │"
-    echo " │  3 - Install Package       4 - Remove Package  │"
-    echo " │  5 - Clean Caches                              │"
-    echo " │                                                │"
-    echo " │                            0 - Canncel         │"
-    echo " └────────────────────────────────────────────────┘"
+    echo " ├──────────────────────┴────────────────────────────────┐"
+    echo " │  1 - Update All Packages    2 - Search Package        │"
+    echo " │  3 - Install Package        4 - Remove Package        │"
+    echo " │  5 - Show Package Details   6 - Clean Caches          │"
+    echo " │                                                       │"
+    echo " │                             0 - Cancel                │"
+    echo " └───────────────────────────────────────────────────────┘"
 
     echo -n " [select] > "
 	read -n1 selected
@@ -25,9 +25,9 @@ function package_manage () {
 		return
 	fi
 
-	if [[ ${selected} != "1" ]] && [[ ${selected} != "5" ]]; then
+	if [[ ${selected} != "1" ]] || [[ ${selected} != "6" ]]; then
 		local package_name
-    	echo -n " [Packages name?] > "
+    	echo -n " [Package name?] > "
 		read package_name
 		if [[ ${package_name} == "0" ]]; then
 			return
@@ -42,7 +42,8 @@ function package_manage () {
 		2)      pacman -Ss ${package_name}  ;;
 		3) sudo pacman -S ${package_name}   ;;
 		4) sudo pacman -Rns ${package_name} ;;
-		5) sudo pacman -Scc                 ;;
+		5)      pacman -Qi ${package_name}  ;;
+		6) sudo pacman -Scc                 ;;
 	esac
 	echo "Completed!!"
 	echo "Press any key to continue..."
@@ -55,13 +56,13 @@ function time_settings () {
 	while true; do
 
 	clear
-    echo " ┌─────────────────┐ "
+    echo " ┌─────────────────┐"
     echo " │ [Time Settings] │"
     echo " ├─────────────────┴─────────────────────────────────────┐"
-    echo " │  1 - Change time zone      2 - Sync time with NTP     │"
-    echo " │  3 - Write hardware clock  4 - Enable or disable NTP  │"
+    echo " │  1 - Change Time Zone      2 - Sync Time with NTP     │"
+    echo " │  3 - Write Hardware Clock  4 - Enable or Disable NTP  │"
     echo " │                                                       │"
-    echo " │                            0 - Canncel                │"
+    echo " │                            0 - Cancel                 │"
     echo " └───────────────────────────────────────────────────────┘"
 
     echo -n " [select] > "
@@ -92,15 +93,15 @@ function time_settings () {
 
 function main () {
 	clear
-    echo " ┌────────────────────────────┐ "
+    echo " ┌────────────────────────────┐"
     echo " │ [Welcome to system menu!!] │"
-    echo " ├────────────────────────────┴─────────────────┐"
-    echo " │  1 - Display         2 - Network             │"
-    echo " │  3 - Sound           4 - Package management  │"
-    echo " │  5 - Time settings                           │"
-    echo " │                                              │"
-    echo " │                      0 - Exit                │"
-    echo " └──────────────────────────────────────────────┘"
+    echo " ├────────────────────────────┴──────────────────────────┐"
+    echo " │  1 - Display                  2 - Network             │"
+    echo " │  3 - Sound                    4 - Package Management  │"
+    echo " │  5 - Time settings                                    │"
+    echo " │                                                       │"
+    echo " │                               0 - Exit                │"
+    echo " └───────────────────────────────────────────────────────┘"
 
     echo -n " [select] > "
 	read -n1 selected

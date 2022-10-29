@@ -69,7 +69,7 @@ function time_settings () {
 	read -n1 selected
 
 	if [[ ${selected} == "4" ]]; then
-    	echo -n "Enable NTP? [y/n]: "
+    	echo -n "y = enable, or n = disable [y/n]: "
 		while true; do
 		local ntp
 			read -n1 ntp

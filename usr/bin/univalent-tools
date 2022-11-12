@@ -10,13 +10,13 @@ function package_manage () {
 	clear
     echo " ┌──────────────────────┐ "
     echo " │ [Package Management] │"
-    echo " ├──────────────────────┴───────────────────────────────────┐"
-    echo " │  1 - Update All Packages       2 - Search Package        │"
-    echo " │  3 - Install Package           4 - Remove Package        │"
-    echo " │  5 - Show Package Details      6 - Clean Caches          │"
-    echo " │                                                          │"
-    echo " │                                0 - Cancel                │"
-    echo " └──────────────────────────────────────────────────────────┘"
+    echo " ├──────────────────────┴───────────────────────────┐"
+    echo " │  1 - Update All Packages   2 - Search Package    │"
+    echo " │  3 - Install Package       4 - Remove Package    │"
+    echo " │  5 - Show Package Details  6 - Clean Caches      │"
+    echo " │                                                  │"
+    echo " │                            0 - Cancel            │"
+    echo " └──────────────────────────────────────────────────┘"
 
     echo -n " [select] > "
 	read -n1 selected
@@ -58,12 +58,12 @@ function time_settings () {
 	clear
     echo " ┌─────────────────┐"
     echo " │ [Time Settings] │"
-    echo " ├─────────────────┴────────────────────────────────────────┐"
-    echo " │  1 - Change Time Zone         2 - Sync Time with NTP     │"
-    echo " │  3 - Write to Hardware Clock  4 - Enable or Disable NTP  │"
-    echo " │                                                          │"
-    echo " │                               0 - Cancel                 │"
-    echo " └──────────────────────────────────────────────────────────┘"
+    echo " ├─────────────────┴──────────────────────────────────┐"
+    echo " │ 1 - Change Time Zone        2 - Sync Time with NTP │"
+    echo " │ 3 - Write to Hardware Clock 4 - Change auto sync   │"
+    echo " │                                                    │"
+    echo " │                             0 - Cancel             │"
+    echo " └────────────────────────────────────────────────────┘"
 
     echo -n " [select] > "
 	read -n1 selected
@@ -95,13 +95,13 @@ function main () {
 	clear
     echo " ┌────────────────────────────┐"
     echo " │ [Welcome to system menu!!] │"
-    echo " ├────────────────────────────┴─────────────────────────────┐"
-    echo " │  1 - Display               2 - Network                   │"
-    echo " │  3 - Sound                 4 - Package Management        │"
-    echo " │  5 - Time settings                                       │"
-    echo " │                                                          │"
-    echo " │                            0 - Exit                      │"
-    echo " └──────────────────────────────────────────────────────────┘"
+    echo " ├────────────────────────────┴─────────────────────┐"
+    echo " │ 1 - Display         2 - Network                  │"
+    echo " │ 3 - Sound           4 - Package Management       │"
+    echo " │ 5 - Time settings                                │"
+    echo " │                                                  │"
+    echo " │                     0 - Exit                     │"
+    echo " └──────────────────────────────────────────────────┘"
 
     echo -n " [select] > "
 	read -n1 selected

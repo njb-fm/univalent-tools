@@ -69,7 +69,7 @@ function time_settings () {
 	read -n1 selected
 
 	if [[ ${selected} == "4" ]]; then
-    	echo -n "y = enable, or n = disable [y/n]: "
+    	echo -en "y = enable, or n = disable [y/n]: "
 		while true; do
 		local ntp
 			read -n1 ntp
@@ -91,6 +91,57 @@ function time_settings () {
 	done
 }
 
+function system_info () {
+	while true; do
+	clear
+    echo " ┌──────────────────────┐ "
+    echo " │  [Show System Info]  │"
+    echo " ├──────────────────────┴───────────────────────────┐"
+    echo " │  1 - System Version      2 - IP Address          │"
+    echo " │  3 - Kernel Messages     4 - Block Devices       │"
+    echo " │  5 - PCI Devices                                 │"
+    echo " │                                                  │"
+    echo " │                          0 - Cancel              │"
+    echo " └──────────────────────────────────────────────────┘"
+
+    echo -n " [select] > "
+    	read -n1 selected
+
+	echo ""
+	case ${selected} in
+		0) return                   ;;
+		1) unifetch                 ;;
+		2) ip address show | tee $HOME/ip-address-show-$(date +%Y%m%d-%H%M%S).log     ;;
+		3) sudo dmesg | tee $HOME/dmesg-$(date +%Y%m%d-%H%M%S).log  ;;
+		4) lsblk -a | tee $HOME/lsblk-$(date +%Y%m%d-%H%M%S).log    ;;
+		5) lspci | tee $HOME/lspci-$(date +%Y%m%d-%H%M%S).log       ;;
+	esac
+
+
+	if [[ ${selected} == "2" ]]; then
+		echo -e "\nOutputted to log file.\nPlease check /home/$(whoami)/ip-address-show-$(date +%Y%m%d-%H%M%S).log"
+	fi
+
+	if [[ ${selected} == "3" ]]; then
+		echo -e "\nOutputted to log file.\nPlease check /home/$(whoami)/dmesg-$(date +%Y%m%d-%H%M%S).log"
+	fi
+
+
+	if [[ ${selected} == "4" ]]; then
+		echo -e "\nOutputted to log file.\nPlease check /home/$(whoami)/lsblk-$(date +%Y%m%d-%H%M%S).log"
+	fi
+
+
+	if [[ ${selected} == "5" ]]; then
+		echo -e "\nOutputted to log file.\nPlease check /home/$(whoami)/lxpci-$(date +%Y%m%d-%H%M%S).log"
+	fi
+
+	echo -e "\nPress any key to continue..."
+	read -n1 selected
+
+	done
+}
+
 function main () {
 	clear
     echo " ┌────────────────────────────┐"
@@ -98,7 +149,7 @@ function main () {
     echo " ├────────────────────────────┴─────────────────────┐"
     echo " │ 1 - Display         2 - Network                  │"
     echo " │ 3 - Sound           4 - Package Management       │"
-    echo " │ 5 - Time settings                                │"
+    echo " │ 5 - Time settings   6 - System Information       │"
     echo " │                                                  │"
     echo " │                     0 - Exit                     │"
     echo " └──────────────────────────────────────────────────┘"
@@ -108,12 +159,13 @@ function main () {
 
 	echo ""
 	case ${selected} in
-		0) exit 0          ;;
-		1) arandr          ;;
-		2) nmtui           ;;
-		3) pavucontrol     ;;
-		4) package_manage  ;;
-		5) time_settings   ;;
+		0) clear && exit 0  ;;
+		1) arandr           ;;
+		2) nmtui            ;;
+		3) pavucontrol      ;;
+		4) package_manage   ;;
+		5) time_settings    ;;
+		6) system_info      ;;
 	esac
 	echo ""
 }

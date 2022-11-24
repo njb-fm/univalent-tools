@@ -8,7 +8,7 @@ function package_manage () {
 	while true; do
 
 	clear
-    echo " ┌──────────────────────┐ "
+    echo " ┌──────────────────────┐"
     echo " │ [Package Management] │"
     echo " ├──────────────────────┴───────────────────────────┐"
     echo " │  1 - Update All Packages   2 - Search Package    │"
@@ -21,6 +21,7 @@ function package_manage () {
     echo -n " [select] > "
 	read -n1 selected
 	echo ""
+
 	if [[ ${selected} == "0" ]]; then
 		return
 	fi

@@ -151,7 +151,6 @@ function main () {
     echo " │ 1 - Display         2 - Network                  │"
     echo " │ 3 - Sound           4 - Package Management       │"
     echo " │ 5 - Time settings   6 - System Information       │"
-    echo " │ 7 - About Univalent                              │"
     echo " │                                                  │"
     echo " │                     0 - Exit                     │"
     echo " └──────────────────────────────────────────────────┘"

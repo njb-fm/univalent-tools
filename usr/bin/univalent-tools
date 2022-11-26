@@ -168,7 +168,6 @@ function main () {
 		4) package_manage   ;;
 		5) time_settings    ;;
 		6) system_info      ;;
-		7) univer           ;;
 	esac
 	echo ""
 }

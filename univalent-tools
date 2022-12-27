@@ -26,7 +26,7 @@ function package_manage () {
 		return
 	fi
 
-	if [[ ${selected} != "1" ]] && [[ ${selected} != "6" ]]; then
+	if [[ ${selected} != "1" ]] && [[ ${selected} != "6" ]] && [[ ${selected} != "7" ]] ; then
 		local package_name
     	echo -n " [Package name?] > "
 		read package_name

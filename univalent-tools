@@ -69,7 +69,7 @@ function pkgmanage () {
 
 function setntpdaemon () { 
 	clear
-	FILE="/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
+	FILE="/etc/systemd/system/dbus-org.freedesktop.timesync1.service"
 	if [ -e ${FILE} ]; then
 		sudo timedatectl set-ntp false
 	else

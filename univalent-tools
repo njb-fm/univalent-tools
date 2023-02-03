@@ -8,6 +8,48 @@ function process_done() {
 	read -n1 selected
 }
 
+function hardinfo_log() {
+	declare -A message=(["journalctl -k --no-pager"]="dmesg" ["lspci"]="lspci" ["lsusb"]="lsusb")
+	log="${message[${run}]}_$(date +%F-%H-%M-%S).log"
+	echo -e "Output \"${message[${run}]}\"\n"
+	${run}|tee -a ${log} 2>/dev/null
+	if [ $? == 0 ]; then
+		echo -e "\n\nCPU Info\n\n$(lscpu)">>${log}
+		echo -e "\n\nRAM Info\n$(free -h)">>${log}
+		echo -e "\n\nStorage Info\n\n$(df -h)">>${log}
+		echo -e "\nLog has been saved to file as \"${log}\"\n"
+		exit 0
+	else
+		echo -e "\nOops! The file couldn't be written due to insufficient write permission or other reasons.\n"
+		exit 1
+	fi
+}
+
+function hardinfo() {
+	declare -A message=(["journalctl -k --no-pager"]="dmesg" ["lspci"]="lspci" ["lsusb"]="lsusb")
+	run=$(whiptail --title "Show Hardware Info" --menu "" 0 0 0 --notags 'journalctl -k --no-pager' "dmesg" 'lspci' "lspci" 'lsusb' "lsusb" 3>&1 1>&2 2>&3)
+	exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		return
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		return
+	else
+	       	:
+	fi
+	whiptail --title "Show Hardware Info" --yesno "\nOutput to file?" 0 0 --defaultno 3>&1 1>&2 2>&3
+	if [ $? == 0 ]; then
+		hardinfo_log
+	else
+		echo -e "Output \"${message[$run]}\"\n"
+		$run
+	echo
+  fi
+  process_done
+  Help_GUI
+}
+
 function pkg_update() {
 	clear
 	sudo pacman -Syu
@@ -17,7 +59,17 @@ function pkg_update() {
 
 function pkg_search() {
 	clear
-	SEARCHWORD=$(whiptail --nocancel --inputbox "Search word?" 0 0 3>&1 1>&2 2>&3)
+	SEARCHWORD=$(whiptail --inputbox "Search word?" 0 0 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
+	fi
 	pacman -Ss ${SEARCHWORD}
 	process_done
 	pkgmanage
@@ -25,7 +77,17 @@ function pkg_search() {
 
 function pkg_details() {
 	clear
-	PKGNAME=$(whiptail --nocancel --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
+	fi
 	pacman -Si ${PKGNAME}
 	process_done
 	pkgmanage
@@ -33,7 +95,17 @@ function pkg_details() {
 
 function pkg_install() {
 	clear
-	PKGNAME=$(whiptail --nocancel --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
+	fi
 	sudo pacman -S ${PKGNAME}
 	process_done
 	pkgmanage
@@ -41,7 +113,17 @@ function pkg_install() {
 
 function pkg_remove() {
 	clear
-	PKGNAME=$(whiptail --nocancel --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
+	fi
 	sudo pacman -Rs ${PKGNAME}
 	process_done
 	pkgmanage
@@ -63,7 +145,17 @@ function noneed_pkgs () {
 
 function pkgmanage () {
 	clear
-	pkg_run=$(whiptail --title "Package Management" --menu "" 0 0 0 --nocancel --notags 'pkg_update' "Update all packages" 'pkg_search' "Search packages" 'pkg_details' "Show package details" 'pkg_install' "Install Package" 'pkg_remove' "Remove Packages" 'noneed_pkgs' "Remove no-needed packages" 'clean_cache' "Clean caches" 'return' "Exit" 3>&1 1>&2 2>&3)
+	pkg_run=$(whiptail --title "Package Management" --menu "" 0 0 0 --notags 'pkg_update' "Update all packages" 'pkg_search' "Search packages" 'pkg_details' "Show package details" 'pkg_install' "Install Package" 'pkg_remove' "Remove Packages" 'noneed_pkgs' "Remove no-needed packages" 'clean_cache' "Clean caches" 3>&1 1>&2 2>&3)
+	exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		return
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		return
+	else
+	       	:
+	fi
 	${pkg_run}
 }
 
@@ -110,13 +202,33 @@ function time_settings () {
 	else
 		NTPD="Enable"
 	fi
-	time_run=$(whiptail --title "Time Settings" --menu "" 0 0 0 --nocancel --notags 'select_timezone' "Select time zone" 'ntp_sync' "Sync time with NTP" 'systohc' "Write to hardware clock" 'setntpdaemon' "${NTPD} NTP autosync" 'return' "Exit" 3>&1 1>&2 2>&3)
+	time_run=$(whiptail --title "Time Settings" --menu "" 0 0 0 --notags 'select_timezone' "Select time zone" 'ntp_sync' "Sync time with NTP" 'systohc' "Write to hardware clock" 'setntpdaemon' "${NTPD} NTP autosync" 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		return
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		return
+	else
+	       	:
+	fi
 	${time_run}
 }
 
 function main () {
 	clear
-	main_run=$(whiptail --title "Univalent Hello" --menu "" 0 0 0 --nocancel --notags 'nmtui' "Network" 'alsamixer' "Sound" 'pkgmanage' "Package Management" 'time_settings' "Time settings" 'exit 0' "Exit" 3>&1 1>&2 2>&3)
+	main_run=$(whiptail --title "Univalent Hello" --menu "" 0 0 0 --notags 'nmtui' "Network" 'alsamixer' "Sound" 'pkgmanage' "Package Management" 'time_settings' "Time settings" 'hardinfo' "Hardware Info" 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		exit 0
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		exit 0
+	else
+	       	:
+	fi
 	${main_run}
 }
 

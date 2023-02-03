@@ -63,7 +63,7 @@ function noneed_pkgs () {
 
 function pkgmanage () {
 	clear
-	pkg_run=$(whiptail --title "Package Management" --menu "" 0 0 0 --ok-button "OK" --nocancel --notags 'pkg_update' "Update all packages" 'pkg_search' "Search packages" 'pkg_details' "Show package details" 'pkg_install' "Install Package" 'pkg_remove' "Remove Packages" 'noneed_pkgs' "Remove noneed packages" 'clean_cache' "Clean caches" 'return' "Exit" 3>&1 1>&2 2>&3)
+	pkg_run=$(whiptail --title "Package Management" --menu "" 0 0 0 --nocancel --notags 'pkg_update' "Update all packages" 'pkg_search' "Search packages" 'pkg_details' "Show package details" 'pkg_install' "Install Package" 'pkg_remove' "Remove Packages" 'noneed_pkgs' "Remove no-needed packages" 'clean_cache' "Clean caches" 'return' "Exit" 3>&1 1>&2 2>&3)
 	${pkg_run}
 }
 
@@ -81,9 +81,9 @@ function setntpdaemon () {
 
 function select_timezone() {
 	clear
-	sudo rm -r /etc/localtime
 	sudo ln -sf /usr/share/zoneinfo/$(tzselect) /etc/localtime
 	sudo hwclock --systohc
+	echo -e "\nPlease reboot for changes to take effect."
 	process_done
 	time_settings
 }

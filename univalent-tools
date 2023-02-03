@@ -104,7 +104,7 @@ function systohc() {
 
 function time_settings () {
 	clear
-	FILE="/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service"
+	FILE="/etc/systemd/system/dbus-org.freedesktop.timesync1.service"
 	if [ -e ${FILE} ]; then
 		NTPD="Disable"
 	else

@@ -4,30 +4,32 @@ set -u
 selected=""
 
 function process_done() {
-	echo -e "\nDone!!\nPress any key to continue..."
+	echo -e "\nDone!! Press any key..."
 	read -n1 selected
 }
 
 function hardinfo_log() {
 	declare -A message=(["journalctl -k --no-pager"]="dmesg" ["lspci"]="lspci" ["lsusb"]="lsusb")
 	log="${message[${run}]}_$(date +%F-%H-%M-%S).log"
-	echo -e "Output \"${message[${run}]}\"\n"
+	echo -e "Output ${message[${run}]}\n"
 	${run}|tee -a ${log} 2>/dev/null
 	if [ $? == 0 ]; then
 		echo -e "\n\nCPU Info\n\n$(lscpu)">>${log}
 		echo -e "\n\nRAM Info\n$(free -h)">>${log}
 		echo -e "\n\nStorage Info\n\n$(df -h)">>${log}
-		echo -e "\nLog has been saved to file as \"${log}\"\n"
-		exit 0
+		echo -e "\nLog has been saved to file as ${log}\n"
+		process_done
+		hardinfo
 	else
 		echo -e "\nOops! The file couldn't be written due to insufficient write permission or other reasons.\n"
-		exit 1
+		process_done
+		hardinfo
 	fi
 }
 
 function hardinfo() {
 	declare -A message=(["journalctl -k --no-pager"]="dmesg" ["lspci"]="lspci" ["lsusb"]="lsusb")
-	run=$(whiptail --title "Show Hardware Info" --menu "" 0 0 0 --notags 'journalctl -k --no-pager' "dmesg" 'lspci' "lspci" 'lsusb' "lsusb" 3>&1 1>&2 2>&3)
+	run=$(whiptail --title "Hardware Info" --menu "" 0 0 0 --notags 'journalctl -k --no-pager' "dmesg" 'lspci' "lspci" 'lsusb' "lsusb" 3>&1 1>&2 2>&3)
 	exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear
@@ -38,16 +40,16 @@ function hardinfo() {
 	else
 	       	:
 	fi
-	whiptail --title "Show Hardware Info" --yesno "\nOutput to file?" 0 0 --defaultno 3>&1 1>&2 2>&3
+	whiptail --title "Hardware Info" --yesno "\nOutput to file?" 0 0 --defaultno 3>&1 1>&2 2>&3
 	if [ $? == 0 ]; then
-		hardinfo_log
+		hardinfo
 	else
-		echo -e "Output \"${message[$run]}\"\n"
+		echo -e "Output ${message[$run]}\n"
 		$run
 	echo
   fi
   process_done
-  Help_GUI
+  hardinfo
 }
 
 function pkg_update() {

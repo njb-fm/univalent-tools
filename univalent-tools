@@ -2,7 +2,7 @@
 
 set -u
 selected=""
-source "/usr/bin/gettext.sh"
+version="2.0"
 
 function process_done() {
  echo -e "\n"
@@ -180,9 +180,20 @@ function time_settings () {
 	${time_run}
 }
 
+about_univa() {
+	clear
+ echo -e "About This System\n"
+ echo -e "Univalent Tools\nVersion 2.0\n"
+ echo -e "Univalent GNU/Linux\nVersion $(lsb_release -rs)\n"
+ echo -e "Copyright (C) 2022-2023\nUnivalent Project / Radio New Japan"
+ echo -e "\n"
+ echo "Press any key..."
+	read -n1 selected
+}
+
 function main () {
 	clear
-	main_run=$(whiptail --title "Univalent Hello" --menu "" 0 0 0 --notags 'nmtui' "Network" 'alsamixer' "Sound" 'pkgmanage' "Package Management" 'time_settings' "Time settings" 3>&1 1>&2 2>&3)
+	main_run=$(whiptail --title "Univalent Hello" --menu "" 0 0 0 --notags 'pkgmanage' "Package Management" 'nmtui' "Network" 'alsamixer' "Sound" 'time_settings' "Time settings" 'about_univa' "About This System" 3>&1 1>&2 2>&3)
 		exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear

@@ -1,167 +1,202 @@
 #!/usr/bin/env bash
 
 set -u
-
 selected=""
+source "/usr/bin/gettext.sh"
 
-function package_manage () {
-	while true; do
+function process_done() {
+ echo -e "\n"
+	echo "Done!! Press any key..."
+	read -n1 selected
+}
 
+function pkg_update() {
 	clear
-    echo " ┌──────────────────────┐"
-    echo " │ [Package Management] │"
-    echo " ├──────────────────────┴───────────────────────────┐"
-    echo " │  1 - Update All Packages   2 - Search Package    │"
-    echo " │  3 - Install Package       4 - Remove Package    │"
-    echo " │  5 - Show Package Details  6 - Clean Caches      │"
-    echo " │  7 - Remove orphaned packages                    │"
-    echo " │                            0 - Cancel            │"
-    echo " └──────────────────────────────────────────────────┘"
+	sudo pacman -Syu
+	process_done
+	pkgmanage
+}
 
-    echo -n " [select] > "
-	read -n1 selected
-	echo ""
-
-	if [[ ${selected} == "0" ]]; then
-		return
+function pkg_search() {
+	clear
+	SEARCHWORD=$(whiptail --inputbox "Search word?" 0 0 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
 	fi
+	pacman -Ss ${SEARCHWORD}
+	SEARCHWORD=""
+	process_done
+	pkgmanage
+}
 
-	if [[ ${selected} != "1" ]] && [[ ${selected} != "6" ]] && [[ ${selected} != "7" ]] ; then
-		local package_name
-    	echo -n " [Package name?] > "
-		read package_name
-		if [[ ${package_name} == "0" ]]; then
-			return
-		fi
+function pkg_details() {
+	clear
+	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
 	fi
+	pacman -Si ${PKGNAME}
+	PKGNAME=""
+	process_done
+	pkgmanage
+}
 
+function pkg_install() {
+	clear
+	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
+	fi
+	sudo pacman -S ${PKGNAME}
+	PKGNAME=""
+	process_done
+	pkgmanage
+}
 
-	echo ""
-	case ${selected} in
-		0) return                           ;;
-		1) sudo pacman -Syu                 ;;
-		2)      pacman -Ss ${package_name}  ;;
-		3) sudo pacman -S ${package_name}   ;;
-		4) sudo pacman -Rns ${package_name} ;;
-		5)      pacman -Qi ${package_name}  ;;
-		6) sudo pacman -Scc                 ;;
-		7) sudo pacman -Rns $(pacman -Qtdq) ;;
-	esac
-	echo " Completed!!"
-	echo " Press any key to continue..."
-	read -n1 selected
+function pkg_remove() {
+	clear
+	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		pkgmanage
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		pkgmanage
+	else
+	       	:
+	fi
+	sudo pacman -Rs ${PKGNAME}
+	PKGNAME=""
+	process_done
+	pkgmanage
+}
 
-	done
+function clean_cache () {
+	clear
+	sudo pacman -Scc
+	process_done
+	pkgmanage
+}
+
+function noneed_pkgs () {
+	clear
+	sudo pacman -Rns $(pacman -Qtdq)
+	process_done
+	pkgmanage
+}
+
+function pkgmanage () {
+	clear
+	pkg_run=$(whiptail --title "Package Management" --menu "" 0 0 0 --notags 'pkg_update' "Update all packages" 'pkg_search' "Search packages" 'pkg_details' "Show package details" 'pkg_install' "Install Package" 'pkg_remove' "Remove Packages" 'noneed_pkgs' "Remove no-needed packages" 'clean_cache' "Clean caches" 3>&1 1>&2 2>&3)
+	exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		main
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		main
+	else
+	       	:
+	fi
+	${pkg_run}
+}
+
+function setntpdaemon () { 
+	clear
+	FILE="/etc/systemd/system/dbus-org.freedesktop.timesync1.service"
+	if [ -e ${FILE} ]; then
+		sudo timedatectl set-ntp false
+	else
+		sudo timedatectl set-ntp true
+	fi
+	process_done
+	time_settings
+}
+
+function select_timezone() {
+	clear
+	sudo ln -sf /usr/share/zoneinfo/$(tzselect) /etc/localtime
+	sudo hwclock --systohc
+	echo -e "\nPlease reboot for changes to take effect."
+	process_done
+	time_settings
+}
+
+function ntp_sync() {
+	clear
+	sudo ntpdate pool.ntp.org
+	process_done
+	time_settings
+}
+
+function systohc() {
+	clear
+	sudo hwclock --systohc
+	process_done
+	time_settings
 }
 
 function time_settings () {
-	while true; do
-
 	clear
-    echo " ┌─────────────────┐"
-    echo " │ [Time Settings] │"
-    echo " ├─────────────────┴──────────────────────────────────┐"
-    echo " │ 1 - Change Time Zone        2 - Sync Time with NTP │"
-    echo " │ 3 - Write to Hardware Clock 4 - Enable auto sync   │"
-    echo " │                                                    │"
-    echo " │                             0 - Cancel             │"
-    echo " └────────────────────────────────────────────────────┘"
-
-    echo -n " [select] > "
-	read -n1 selected
-
-	echo ""
-	case ${selected} in
-		0) return                          ;;
-		1) tzselect                        ;;
-		2) sudo ntpdate -B pool.ntp.org    ;;
-		3) sudo hwclock --systohc --local  ;;
-		4) sudo timedatectl set-ntp true   ;;
-	esac
-	echo ""
-
-	done
-}
-
-function system_info () {
-	while true; do
-	clear
-    echo " ┌──────────────────────┐ "
-    echo " │  [Show System Info]  │"
-    echo " ├──────────────────────┴───────────────────────────┐"
-    echo " │  1 - System Version      2 - IP Address          │"
-    echo " │  3 - Kernel Messages     4 - Block Devices       │"
-    echo " │  5 - PCI Devices                                 │"
-    echo " │                                                  │"
-    echo " │                          0 - Cancel              │"
-    echo " └──────────────────────────────────────────────────┘"
-
-    echo -n " [select] > "
-    	read -n1 selected
-
-	echo ""
-	case ${selected} in
-		0) return                   ;;
-		1) unifetch                 ;;
-		2) ip address show | tee $HOME/ip-address-show-$(date +%Y%m%d-%H%M%S).log     ;;
-		3) sudo dmesg | tee $HOME/dmesg-$(date +%Y%m%d-%H%M%S).log  ;;
-		4) lsblk -a | tee $HOME/lsblk-$(date +%Y%m%d-%H%M%S).log    ;;
-		5) lspci | tee $HOME/lspci-$(date +%Y%m%d-%H%M%S).log       ;;
-	esac
-
-
-	if [[ ${selected} == "2" ]]; then
-		echo -e "\n Outputted to log file.\n Please check /home/$(whoami)/ip-address-show-$(date +%Y%m%d-%H%M%S).log"
+	FILE="/etc/systemd/system/dbus-org.freedesktop.timesync1.service"
+	if [ -e ${FILE} ]; then
+		NTPD="Disable"
+	else
+		NTPD="Enable"
 	fi
-
-	if [[ ${selected} == "3" ]]; then
-		echo -e "\n Outputted to log file.\n Please check /home/$(whoami)/dmesg-$(date +%Y%m%d-%H%M%S).log"
+	time_run=$(whiptail --title "Time Settings" --menu "" 0 0 0 --notags 'select_timezone' "Select time zone" 'ntp_sync' "Sync time with NTP" 'systohc' "Write to hardware clock" 'setntpdaemon' "${NTPD} NTP autosync" 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		main
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		main
+	else
+	       	:
 	fi
-
-
-	if [[ ${selected} == "4" ]]; then
-		echo -e "\n Outputted to log file.\n Please check /home/$(whoami)/lsblk-$(date +%Y%m%d-%H%M%S).log"
-	fi
-
-
-	if [[ ${selected} == "5" ]]; then
-		echo -e "\n Outputted to log file.\n Please check /home/$(whoami)/lxpci-$(date +%Y%m%d-%H%M%S).log"
-	fi
-
-	echo -e "\n Press any key to continue..."
-	read -n1 selected
-
-	done
+	${time_run}
 }
 
 function main () {
 	clear
-    echo " ┌────────────────────────────┐"
-    echo " │ [Welcome to system menu!!] │"
-    echo " ├────────────────────────────┴─────────────────────┐"
-    echo " │ 1 - Display         2 - Network                  │"
-    echo " │ 3 - Sound           4 - Package Management       │"
-    echo " │ 5 - Time settings   6 - System Information       │"
-    echo " │                                                  │"
-    echo " │                     0 - Exit                     │"
-    echo " └──────────────────────────────────────────────────┘"
-
-    echo -n " [select] > "
-	read -n1 selected
-
-	echo ""
-	case ${selected} in
-		0) clear && exit 0  ;;
-		1) arandr           ;;
-		2) nmtui            ;;
-		3) alsamixer        ;;
-		4) package_manage   ;;
-		5) time_settings    ;;
-		6) system_info      ;;
-	esac
-	echo ""
+	main_run=$(whiptail --title "Univalent Hello" --menu "" 0 0 0 --notags 'nmtui' "Network" 'alsamixer' "Sound" 'pkgmanage' "Package Management" 'time_settings' "Time settings" 3>&1 1>&2 2>&3)
+		exitmenu=$?
+	if [ $exitmenu == 1 ]; then
+		clear
+		exit 0
+	elif [ $exitmenu == 134 ]; then
+		$(basename $0) --missing-popt
+		exit 0
+	else
+	       	:
+	fi
+	${main_run}
 }
 
 while true; do
 	main
 done
+

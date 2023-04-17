@@ -6,9 +6,8 @@ Well, what's this??? To put it simply, it's a system configuration software that
 Inspired by the i3-wm version of Alter Linux, I thought, "I wish I had something like this."
 
 This script can do:
-- Display setting (ARandR)
 - Network setting (Network Manager)
-- Audio Setting (PulseAudio Volume Control)
+- Audio Setting (Alsa Mixer)
 - Package Management (Pacman)
 	- Update all packages
 	- Search packages
@@ -23,12 +22,11 @@ This script can do:
 	- Enable or disable NTP
 
 ## Dependencies
-- arandr
 - networkmanager
 - ntp
-- pavucontrol
+- alsa-utils
 
-`yay -S arandr networkmanager pavucontrol ntp`
+`yay -S networkmanager alsa-utils ntp`
 
-## Special Thanks (敬称略)
+## Special Thanks
 Watasuke (@watasuke102)

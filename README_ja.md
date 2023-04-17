@@ -21,19 +21,13 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
  - NTPによる時刻の同期
  - ハードウエアクロックへの書き込み
  - NTPの有効化及び無効化
-- ハードウェア情報の表示
- - dmesg
- - lspci
- - lsusb
 
 ## 依存パッケージ
-* arandr
 * networkmanager
 * ntp
 * alsa-utils
 
-`yay -S arandr networkmanager alsa-utils ntp`
+`yay -S networkmanager alsa-utils ntp`
 
 ## Special Thanks (敬称略)
 わたすけ (@watasuke102)
-シューゴ (@s1204IT)

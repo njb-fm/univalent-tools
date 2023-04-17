@@ -20,19 +20,13 @@ This script can do:
 	- Sync time with NTP
 	- Write to hardware clock
 	- Enable or disable NTP
-- Show hardware info
- - dmesg
- - lspci
- - lsusb
 
 ## Dependencies
-- arandr
 - networkmanager
 - ntp
 - alsa-utils
 
-`yay -S arandr networkmanager alsa-utils ntp`
+`yay -S networkmanager alsa-utils ntp`
 
 ## Special Thanks
 Watasuke (@watasuke102)
-Syuugo (@s1204IT)

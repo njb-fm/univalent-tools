@@ -2,54 +2,12 @@
 
 set -u
 selected=""
+source "/usr/bin/gettext.sh"
 
 function process_done() {
-	echo -e "\nDone!! Press any key..."
+ echo -e "\n"
+	echo "Done!! Press any key..."
 	read -n1 selected
-}
-
-function hardinfo_log() {
-	declare -A message=(["journalctl -k --no-pager"]="dmesg" ["lspci"]="lspci" ["lsusb"]="lsusb")
-	log="${message[${run}]}_$(date +%F-%H-%M-%S).log"
-	echo -e "Output ${message[${run}]}\n"
-	${run}|tee -a ${log} 2>/dev/null
-	if [ $? == 0 ]; then
-		echo -e "\n\nCPU Info\n\n$(lscpu)">>${log}
-		echo -e "\n\nRAM Info\n$(free -h)">>${log}
-		echo -e "\n\nStorage Info\n\n$(df -h)">>${log}
-		echo -e "\nLog has been saved to file as ${log}\n"
-		process_done
-		hardinfo
-	else
-		echo -e "\nOops! The file couldn't be written due to insufficient write permission or other reasons.\n"
-		process_done
-		hardinfo
-	fi
-}
-
-function hardinfo() {
-	declare -A message=(["journalctl -k --no-pager"]="dmesg" ["lspci"]="lspci" ["lsusb"]="lsusb")
-	run=$(whiptail --title "Hardware Info" --menu "" 0 0 0 --notags 'journalctl -k --no-pager' "dmesg" 'lspci' "lspci" 'lsusb' "lsusb" 3>&1 1>&2 2>&3)
-	exitmenu=$?
-	if [ $exitmenu == 1 ]; then
-		clear
-		return
-	elif [ $exitmenu == 134 ]; then
-		$(basename $0) --missing-popt
-		return
-	else
-	       	:
-	fi
-	whiptail --title "Hardware Info" --yesno "\nOutput to file?" 0 0 --defaultno 3>&1 1>&2 2>&3
-	if [ $? == 0 ]; then
-		hardinfo
-	else
-		echo -e "Output ${message[$run]}\n"
-		$run
-	echo
-  fi
-  process_done
-  hardinfo
 }
 
 function pkg_update() {
@@ -73,6 +31,7 @@ function pkg_search() {
 	       	:
 	fi
 	pacman -Ss ${SEARCHWORD}
+	SEARCHWORD=""
 	process_done
 	pkgmanage
 }
@@ -91,6 +50,7 @@ function pkg_details() {
 	       	:
 	fi
 	pacman -Si ${PKGNAME}
+	PKGNAME=""
 	process_done
 	pkgmanage
 }
@@ -109,6 +69,7 @@ function pkg_install() {
 	       	:
 	fi
 	sudo pacman -S ${PKGNAME}
+	PKGNAME=""
 	process_done
 	pkgmanage
 }
@@ -127,6 +88,7 @@ function pkg_remove() {
 	       	:
 	fi
 	sudo pacman -Rs ${PKGNAME}
+	PKGNAME=""
 	process_done
 	pkgmanage
 }
@@ -151,10 +113,10 @@ function pkgmanage () {
 	exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear
-		return
+		main
 	elif [ $exitmenu == 134 ]; then
 		$(basename $0) --missing-popt
-		return
+		main
 	else
 	       	:
 	fi
@@ -208,10 +170,10 @@ function time_settings () {
 		exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear
-		return
+		main
 	elif [ $exitmenu == 134 ]; then
 		$(basename $0) --missing-popt
-		return
+		main
 	else
 	       	:
 	fi
@@ -220,7 +182,7 @@ function time_settings () {
 
 function main () {
 	clear
-	main_run=$(whiptail --title "Univalent Hello" --menu "" 0 0 0 --notags 'nmtui' "Network" 'alsamixer' "Sound" 'pkgmanage' "Package Management" 'time_settings' "Time settings" 'hardinfo' "Hardware Info" 3>&1 1>&2 2>&3)
+	main_run=$(whiptail --title "Univalent Hello" --menu "" 0 0 0 --notags 'nmtui' "Network" 'alsamixer' "Sound" 'pkgmanage' "Package Management" 'time_settings' "Time settings" 3>&1 1>&2 2>&3)
 		exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear

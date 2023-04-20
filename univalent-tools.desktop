@@ -1,10 +1,10 @@
 [Desktop Entry]
 Version=1.0
-Name=Univalent Tools
+Name=Univalent Hello
 GenericName=System Setting Tool
 GenericName[ja]=システム設定ツール
-Comment=System setting tool written in bash, inspired by Alter Linux i3wm.
-Comment[ja]=Alter Linux i3wmに影響を受けた、Bashで記述されたシステム設定ツール
+Comment=System setting tool written in bash.
+Comment[ja]=Bashで記述されたシステム設定ツール
 Exec=univalent-tools
 StartupNotify=true
 Terminal=true

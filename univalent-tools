@@ -19,7 +19,7 @@ function pkg_update() {
 
 function pkg_search() {
 	clear
-	SEARCHWORD=$(whiptail --inputbox "Search word?" 0 0 3>&1 1>&2 2>&3)
+	SEARCHWORD=$(whiptail --nocancel --inputbox "Search word?" 0 0 3>&1 1>&2 2>&3)
 		exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear
@@ -38,7 +38,7 @@ function pkg_search() {
 
 function pkg_details() {
 	clear
-	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	PKGNAME=$(whiptail --nocancel --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
 		exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear
@@ -57,7 +57,7 @@ function pkg_details() {
 
 function pkg_install() {
 	clear
-	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	PKGNAME=$(whiptail --nocancel --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
 	exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear
@@ -76,7 +76,7 @@ function pkg_install() {
 
 function pkg_remove() {
 	clear
-	PKGNAME=$(whiptail --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
+	PKGNAME=$(whiptail --nocancel --inputbox "Package name?" 0 0 3>&1 1>&2 2>&3)
 	exitmenu=$?
 	if [ $exitmenu == 1 ]; then
 		clear

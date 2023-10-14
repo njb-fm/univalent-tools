@@ -1,0 +1,52 @@
+#!/usr/bin/bash
+
+set -u
+version="3.0"
+
+about_this_software(){
+	zenity --info --title="About Univalent Hello" \
+	       --icon-name=univalent \
+	       --text="<b>Univalent Hello ${version}</b>\n\nCopyright (C) 2022-2023 Radio New Japan.\nLicense: 3-clause BSD License"
+}
+
+
+main(){
+	while true; do
+		operation=$(zenity --list --title="Univalent Hello" --hide-header \
+				   --text="<b>Welcome to Univalent!</b>" \
+				   --column="number" --column="operation" \
+				   --hide-column 1 \
+				   "1" "Package Management" \
+				   "2" "Display" \
+				   "3" "Network" \
+				   "4" "Sound" \
+				   "5" "About This Software" 2>/dev/null)
+		case ${operation} in
+			1)
+				pkexec env DISPLAY=${DISPLAY} pamac-manager
+				;;
+			2)
+				arandr
+				;;
+			3)
+				nm-connection-editor
+				;;
+			4)
+				if command -v pavucontrol; then
+					pavucontrol
+				elif command -v pavucontrol-qt; then
+					pavucontrol-qt
+				fi
+				;;
+			5)
+				about_this_software
+				;;
+			*)
+				break
+				;;
+		esac
+	done
+}
+
+main
+

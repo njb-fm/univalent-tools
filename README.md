@@ -1,4 +1,4 @@
-# univalent-tools
+# Univalent Hello
 -----
 
 ## About this
@@ -6,27 +6,15 @@ Well, what's this??? To put it simply, it's a system configuration software that
 Inspired by the i3-wm version of Alter Linux, I thought, "I wish I had something like this."
 
 This script can do:
-- Network setting (Network Manager)
-- Audio Setting (Alsa Mixer)
-- Package Management (Pacman)
-	- Update all packages
-	- Search packages
-	- Install packages
-	- Remove packages
-	- Show packages details
-	- Clean caches
-- Time setting (NTP)
-	- Change time zone
-	- Sync time with NTP
-	- Write to hardware clock
-	- Enable or disable NTP
+- Network Setting (Network Manager Connection Editor)
+- Display Setting (ARandR)
+- Audio Setting (Pavucontrol{,-Qt})
+- Package Management (Pamac)
 
 ## Dependencies
-- networkmanager
-- ntp
-- alsa-utils
-
-`yay -S networkmanager alsa-utils ntp`
+- nm-connection-editor
+- pavucontrol / pavucontrol-qt
+- pamac-aur (or pamac-*)
 
 ## Special Thanks
 Watasuke (@watasuke102)

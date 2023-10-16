@@ -11,7 +11,7 @@ install:
 	@mkdir -p $(DESTDIR)$(PREFIX)/share/licenses/univalent-tools
 	@cp -p univalent-hello $(DESTDIR)$(PREFIX)/bin/univalent-hello
 	@cp -p univalent-hello.desktop $(DESTDIR)$(PREFIX)/share/applications/univalent-hello.desktop
-	@cp -p LICENSE $(DESTDIR)$(PREFIX)/share/doc/univalent-tools/LICENSE
+	@cp -p LICENSE $(DESTDIR)$(PREFIX)/share/licenses/univalent-tools/LICENSE
 	@chmod 755 $(DESTDIR)$(PREFIX)/bin/univalent-hello
 
 uninstall:

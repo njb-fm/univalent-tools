@@ -12,9 +12,10 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
 - パッケージ管理 (Pamac)
 
 ## 依存パッケージ
-* nm-connection-editor
-* pavucontrol / pavucontrol-qt
-* pamac
+- zenity
+- nm-connection-editor
+- pavucontrol / pavucontrol-qt
+- pamac
 
 ## Special Thanks (敬称略)
 わたすけ (@watasuke102)

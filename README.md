@@ -12,6 +12,7 @@ This script can do:
 - Package Management (Pamac)
 
 ## Dependencies
+- zenity
 - nm-connection-editor
 - pavucontrol / pavucontrol-qt
 - pamac

@@ -14,7 +14,7 @@ This script can do:
 ## Dependencies
 - nm-connection-editor
 - pavucontrol / pavucontrol-qt
-- pamac-aur (or pamac-*)
+- pamac
 
 ## Special Thanks
 Watasuke (@watasuke102)

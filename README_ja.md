@@ -14,7 +14,7 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
 ## 依存パッケージ
 * nm-connection-editor
 * pavucontrol / pavucontrol-qt
-* pamac-aur (またはpamac-*)
+* pamac
 
 ## Special Thanks (敬称略)
 わたすけ (@watasuke102)

@@ -16,6 +16,7 @@ This script can do:
 - nm-connection-editor
 - pavucontrol / pavucontrol-qt
 - pamac
+- gksu
 
 ## Special Thanks
 Watasuke (@watasuke102)

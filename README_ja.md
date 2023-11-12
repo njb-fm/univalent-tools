@@ -16,6 +16,7 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
 - nm-connection-editor
 - pavucontrol / pavucontrol-qt
 - pamac
+- gksu
 
 ## Special Thanks (敬称略)
 わたすけ (@watasuke102)

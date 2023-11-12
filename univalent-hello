@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 set -u
-version="3.0"
+version="3.1"
 
 about_this_software(){
 	zenity --info --title="About Univalent Hello" \
@@ -23,7 +23,7 @@ main(){
 				   "5" "About This Software" 2>/dev/null)
 		case ${operation} in
 			1)
-				pkexec env DISPLAY=${DISPLAY} pamac-manager
+				gksu pamac-manager
 				;;
 			2)
 				arandr

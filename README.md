@@ -15,7 +15,7 @@ This script can do:
 - zenity
 - nm-connection-editor
 - pavucontrol / pavucontrol-qt
-- pamac
+- tkpacman
 - gksu
 
 ## Special Thanks

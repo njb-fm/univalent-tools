@@ -15,7 +15,7 @@ Alter Linuxのi3-wm版に搭載されているヤツに影響されて「こん�
 - zenity
 - nm-connection-editor
 - pavucontrol / pavucontrol-qt
-- pamac
+- tkpacman
 - gksu
 
 ## Special Thanks (敬称略)
